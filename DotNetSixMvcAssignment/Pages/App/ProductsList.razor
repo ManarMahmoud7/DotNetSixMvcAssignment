@@ -1,0 +1,53 @@
+﻿@page "/app/products"
+
+
+<h1>Products View</h1>
+<hr />
+<div class="mb-3">
+    <select @onchange="FilterProductsByCategory">
+        @foreach (var cat in Categories)
+        {
+            <option value="@cat.Id">@cat.Name</option>
+        }
+    </select>
+</div>
+
+
+<div>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in FilteredProducts)
+            {
+                <tr>
+                    
+                    <td>
+                        @if (!string.IsNullOrWhiteSpace(item.ImageUrl))
+                        {
+                            <img src="/images/products/@item.ImageUrl"/>
+                        }
+                    </td>
+                    <td><a class ="alert-link" @onclick='(() => NavigateToProductController("ProductDetails",item.Id))'>@item.Name</a></td>
+                    <td>@item.Price</td>
+                    <td>@item.Quantity</td>
+                    <td>
+                        <a class="btn btn-success" @onclick='(() => NavigateToProductController("ProductDetails",item.Id))'>Details</a>
+                        @if (context != null && context?.HttpContext?.User?.Claims.Count() > 0)
+                        {
+                            <a class="btn btn-success" @onclick='(() => NavigateToProductController("EditProduct",item.Id))'>Edit</a>
+                            <a class="btn btn-danger" @onclick='(() => NavigateToProductController("DeleteProduct",item.Id))'>Delete</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,50 @@
+﻿@model ProductDto
+
+<form  method="post" enctype="multipart/form-data" role="form">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="mb-3">
+        <label asp-for="Name">Name</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Price">Price</label>
+        <input asp-for="Price" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Quantity">Quantity</label>
+        <input asp-for="Quantity" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="CategoryId">Category</label>
+        <select asp-for="CategoryId" value="@ViewBag.defaultCategoryId" class="form-control">
+            @if (ViewBag.Categories != null)
+            {
+                @foreach (var item in ViewBag.Categories)
+                {
+                    <option value="@item.Id"> @item.Name</option>
+                }
+
+            }
+        </select>
+    </div>
+    @if (ViewContext.RouteData.Values["id"] is not null)
+    {
+        <div class="mb-3">
+            <label asp-for="Upload">Current Image</label>
+            <input  class="form-control" readonly asp-for="ImageUrl"></input>
+            <img src="~/images/products/@Model.ImageUrl" />
+        </div>
+    }
+    <div class="mb-3">
+        <label asp-for="Upload">Image</label>
+        <input asp-for="Upload" class="form-control" />
+    </div>
+    @if (ViewContext.RouteData.Values["id"] is not null)
+    {
+        <button asp-page-handler ="EditProduct" class="btn btn-success">Update</button>
+    }
+    else
+    {
+        <button asp-page-handler ="AddProduct" class="btn btn-success">Add</button>
+    }
+</form>

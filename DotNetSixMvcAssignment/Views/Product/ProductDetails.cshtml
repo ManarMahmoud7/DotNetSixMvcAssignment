@@ -1,0 +1,33 @@
+﻿@model ProductDto;
+
+<div class="col-md-6">
+    <img src="~/images/products/@Model.ImageUrl" />
+</div>
+
+<div class="col-md-6">
+    <div class="mb-3">
+        <label asp-for="Name">Name</label>
+        <input asp-for="Name" readonly class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Price">Price</label>
+        <input asp-for="Price" readonly class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Quantity">Quantity</label>
+        <input asp-for="Quantity" readonly class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="CategoryId">Category</label>
+        <select class="form-control"  asp-for="CategoryId" value="@ViewBag.defaultCategoryId" disabled>
+            @if (ViewBag.Categories != null)
+            {
+                @foreach (var item in ViewBag.Categories)
+                {
+                    <option value="@item.Id"> @item.Name</option>
+                }
+
+            }
+        </select>
+    </div>
+</div>
